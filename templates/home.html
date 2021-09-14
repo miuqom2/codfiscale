@@ -1,0 +1,58 @@
+<html>
+<head>
+<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+<script type=text/javascript>
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+// Questa e' una chiamata ad una funzione flask di back-end (_evaluate) che calcola il codice fiscale in base ai dati immessi 
+// (i dati sono formattati JSON, inviati tramite la funzione jquery "getJSON", dunque ajax, alla funzione di back-end). 
+// Inoltre la funzione restituisce la stringa calcolata che viene inserita nell'apposito campo.
+$(function() {
+	$("#calcola").bind('click', function(){ 
+														$.getJSON(
+																		$SCRIPT_ROOT + "/_evaluate",
+																		{	nome: $('#nome').val(), 
+																			cognome: $('#cognome').val(), 
+																			data_nascita: $('#data_nascita').val(),
+																			comune: $('#comune').val(),
+																			sesso: $('#sesso').val()
+																		},
+																		function(datafromserver) { $('#codice_calcolato').val(""+datafromserver.result); }
+																	 );
+														return false;
+																}
+									);
+});
+function Reimposta() {
+	$('#nome').val("");
+	$('#cognome').val("");
+	$('#data_nascita').val("");	
+	$('#comune').val("");
+	$('#sesso').val("");
+}
+</script>
+</head>
+<body>
+<h2>Calcola codice fiscale</h2>
+{% block body %}
+<table>
+<tr><td>Nome</td><td><input type='text' id='nome' maxlenght='50' /></td></tr>
+<tr><td>Cognome</td><td><input type='text' id='cognome' maxlenght='50' /></td></tr>
+<tr><td>Nata/o</td><td><input type='text' id='data_nascita' maxlenght='50' /></td></tr>
+<tr><td>Comune</td><td>
+<select id='comune'>
+{% for entry in entries %}
+	<option value={{ entry[0] }}>{{ entry[1] }}</option>
+{% endfor %}
+</select></td></tr>
+<tr><td>Sesso</td><td><select id='sesso'>
+<option value='f'>Femmina</option>
+<option value='m'>Maschio</option>
+</select></td></tr>
+</table>
+{% endblock %}
+<br/><br />
+<input type='button' id='calcola' value='Calcola' /><input type='button' id='reset' value='Reimposta'  onclick="Reimposta();" /><br /><br /><br />
+<input type='text' id='codice_calcolato' readonly='readonly' />
+</body>
+</html>
