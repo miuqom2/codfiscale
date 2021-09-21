@@ -17,24 +17,24 @@ mesi = ('a','b','c','d','e','h','l','m','p','r','s','t')
 #CODICI DI CONTROLLO
 regole_pari = {}
 alfabeto = string.ascii_lowercase
-for i in xrange (0,10):
+for i in range (0,10):
 	regole_pari[str(i)] = i
-for i in xrange (0,26):
+for i in range (0,26):
 	regole_pari[alfabeto[i]] = i
 
 regole_dispari = {}
 temp_tuple = (1,0,5,7,9,13,15,17,19,21)
-for i in xrange(0,10):
+for i in range(0,10):
 	regole_dispari[str(i)] = temp_tuple[i]
 	regole_dispari[alfabeto[i]] = temp_tuple[i]
 
 temp_tuple2 = (2,4,18,20,11,3,6,8,12,14,16,10,22,25,24,23)
 index = 0
-for i in xrange(10,26):
+for i in range(10,26):
 	regole_dispari[alfabeto[i]] = temp_tuple2[index]
 	index += 1
 
-regole_resto = [alfabeto[i] for i in xrange(0,26)]
+regole_resto = [alfabeto[i] for i in range(0,26)]
 
 
 ##--------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ def genera_mese(unMese):
 	return mesi[int(unMese)-1]
 
 def genera_giorno(unGiorno, unSesso):
-	if int(unGiorno) in xrange(1,31):
+	if int(unGiorno) in range(1,31):
 		if unSesso == 'm':
 			return unGiorno
 		elif unSesso == 'f':
